@@ -22,9 +22,12 @@ const Home = () => {
       if (searchTerm) params.append('search', searchTerm);
 
       const response = await api.get(`/restaurants?${params.toString()}`);
-      setRestaurants(response.data.data.restaurants);
+      // Backend returns: { status: "success", data: { restaurants: [...] } }
+      const restaurantsData = response.data?.data?.restaurants || [];
+      setRestaurants(Array.isArray(restaurantsData) ? restaurantsData : []);
     } catch (error) {
       console.error('Error fetching restaurants:', error);
+      setRestaurants([]); // Set empty array on error
     } finally {
       setLoading(false);
     }

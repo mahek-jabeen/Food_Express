@@ -14,8 +14,10 @@ const ImageWithFallback = ({
   const [imgError, setImgError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Get backend base URL from environment
-  const BACKEND_URL = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000';
+  // Get backend base URL from environment (remove /api suffix if present)
+  const BACKEND_URL = process.env.REACT_APP_API_URL
+    ? process.env.REACT_APP_API_URL.replace(/\/api$/, '')
+    : 'http://localhost:5000';
 
   /**
    * Build full image URL
