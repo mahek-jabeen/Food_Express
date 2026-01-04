@@ -1,0 +1,553 @@
+{
+  "info": {
+    "name": "FoodXpress AI API",
+    "description": "Complete API collection for FoodXpress AI backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"phone\": \"+1234567890\",\n  \"role\": \"customer\",\n  \"address\": {\n    \"street\": \"123 Main St\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"zipCode\": \"10001\"\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/auth/register",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/auth/login",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/auth/me",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "auth", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Restaurants",
+      "item": [
+        {
+          "name": "Get All Restaurants",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:5000/api/restaurants?cuisine=Italian&rating=4",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "restaurants"],
+              "query": [
+                {
+                  "key": "cuisine",
+                  "value": "Italian"
+                },
+                {
+                  "key": "rating",
+                  "value": "4"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Restaurant by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:5000/api/restaurants/:id",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "restaurants", ":id"]
+            }
+          }
+        },
+        {
+          "name": "Create Restaurant",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Pizza Palace\",\n  \"description\": \"Authentic Italian pizza\",\n  \"cuisine\": [\"Italian\", \"Pizza\"],\n  \"address\": {\n    \"street\": \"456 Food Ave\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"zipCode\": \"10002\"\n  },\n  \"phone\": \"+1234567890\",\n  \"email\": \"info@pizzapalace.com\",\n  \"priceRange\": \"$$\",\n  \"deliveryFee\": 5.99,\n  \"minimumOrder\": 15\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/restaurants",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "restaurants"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Menu",
+      "item": [
+        {
+          "name": "Get Menu Items",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:5000/api/menu/:restaurantId?category=Main Course",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "menu", ":restaurantId"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "Main Course"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Menu Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"restaurant\": \"RESTAURANT_ID\",\n  \"name\": \"Margherita Pizza\",\n  \"description\": \"Classic pizza with tomato and mozzarella\",\n  \"price\": 12.99,\n  \"category\": \"Main Course\",\n  \"isVegetarian\": true,\n  \"prepTime\": 15\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/menu",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "menu"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "Get Cart",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/cart/:userId",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "cart", ":userId"]
+            }
+          }
+        },
+        {
+          "name": "Add to Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"menuItemId\": \"MENU_ITEM_ID\",\n  \"quantity\": 2,\n  \"customizations\": [\n    {\n      \"name\": \"Size\",\n      \"option\": \"Large\",\n      \"price\": 3\n    }\n  ],\n  \"specialInstructions\": \"Extra cheese please\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/cart/add",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "cart", "add"]
+            }
+          }
+        },
+        {
+          "name": "Update Cart Item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 3\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/cart/item/:itemId",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "cart", "item", ":itemId"]
+            }
+          }
+        },
+        {
+          "name": "Remove from Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/cart/item/:itemId",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "cart", "item", ":itemId"]
+            }
+          }
+        },
+        {
+          "name": "Clear Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/cart/:userId",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "cart", ":userId"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"restaurant\": \"RESTAURANT_ID\",\n  \"items\": [\n    {\n      \"menuItem\": \"MENU_ITEM_ID\",\n      \"quantity\": 2\n    }\n  ],\n  \"deliveryAddress\": {\n    \"street\": \"123 Main St\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"zipCode\": \"10001\",\n    \"instructions\": \"Ring doorbell\"\n  },\n  \"paymentMethod\": \"credit_card\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/orders",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "orders"]
+            }
+          }
+        },
+        {
+          "name": "Get User Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/orders/user",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "orders", "user"]
+            }
+          }
+        },
+        {
+          "name": "Get Order by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/orders/:orderId",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "orders", ":orderId"]
+            }
+          }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"preparing\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/orders/:orderId/status",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "orders", ":orderId", "status"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Changed my mind\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/orders/:orderId/cancel",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "orders", ":orderId", "cancel"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Create Review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"restaurant\": \"RESTAURANT_ID\",\n  \"order\": \"ORDER_ID\",\n  \"rating\": 5,\n  \"foodRating\": 5,\n  \"deliveryRating\": 4,\n  \"comment\": \"Excellent pizza! Fresh ingredients and fast delivery.\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/reviews",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "reviews"]
+            }
+          }
+        },
+        {
+          "name": "Get Restaurant Reviews",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:5000/api/reviews/restaurant/:restaurantId",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "reviews", "restaurant", ":restaurantId"]
+            }
+          }
+        },
+        {
+          "name": "Mark Review as Helpful",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/reviews/:reviewId/helpful",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "reviews", ":reviewId", "helpful"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "AI Features",
+      "item": [
+        {
+          "name": "AI Chatbot",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"I want something spicy\",\n  \"context\": {}\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/ai/chatbot",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "ai", "chatbot"]
+            }
+          }
+        },
+        {
+          "name": "Get AI Recommendations",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"preferences\": [\"Italian\", \"Pizza\"],\n  \"dietary\": [\"vegetarian\"]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/ai/recommendations",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "ai", "recommendations"]
+            }
+          }
+        },
+        {
+          "name": "Get Review Summary",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"restaurantId\": \"RESTAURANT_ID\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/ai/reviews",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "ai", "reviews"]
+            }
+          }
+        },
+        {
+          "name": "Predict ETA",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"restaurantId\": \"RESTAURANT_ID\",\n  \"deliveryAddress\": {\n    \"street\": \"123 Main St\",\n    \"city\": \"New York\",\n    \"zipCode\": \"10001\"\n  },\n  \"orderItems\": [\n    {\n      \"menuItemId\": \"MENU_ITEM_ID\",\n      \"quantity\": 2\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/ai/eta",
+              "host": ["http://localhost:5000"],
+              "path": ["api", "ai", "eta"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
