@@ -40,8 +40,20 @@ export const SocketProvider = ({ children }) => {
     // Mark connection attempt to prevent duplicates
     connectionAttempted.current = true;
 
+    // Get Socket.IO server URL (WITHOUT /api suffix)
+    const getSocketUrl = () => {
+      if (process.env.REACT_APP_API_URL) {
+        // Remove /api suffix if present
+        return process.env.REACT_APP_API_URL.replace(/\/api$/, '').replace(/\/+$/, '');
+      }
+      return 'http://localhost:5000';
+    };
+
+    const socketUrl = getSocketUrl();
+    console.log('🔌 Socket.IO connecting to:', socketUrl);
+
     // Initialize Socket.IO connection only once
-    const newSocket = io(process.env.REACT_APP_API_URL || 'http://localhost:5000', {
+    const newSocket = io(socketUrl, {
       auth: {
         token: token
       },
