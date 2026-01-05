@@ -17,8 +17,6 @@ const Home = () => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
-      if (selectedCuisine) params.append('cuisine', selectedCuisine);
-      if (priceRange) params.append('priceRange', priceRange);
       if (searchTerm) params.append('search', searchTerm);
 
       const response = await api.get(`/restaurants?${params.toString()}`);
@@ -29,7 +27,7 @@ const Home = () => {
     } finally {
       setLoading(false);
     }
-  }, [selectedCuisine, priceRange, searchTerm]);
+  }, [searchTerm]);
 
   useEffect(() => {
     fetchRestaurants();
@@ -39,6 +37,19 @@ const Home = () => {
     e.preventDefault();
     fetchRestaurants();
   };
+
+  // Filter restaurants on frontend
+  const filteredRestaurants = restaurants.filter((restaurant) => {
+    const cuisineMatch =
+      selectedCuisine === '' ||
+      restaurant.cuisine?.includes(selectedCuisine);
+
+    const priceMatch =
+      priceRange === '' ||
+      restaurant.priceRange === priceRange;
+
+    return cuisineMatch && priceMatch;
+  });
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -130,13 +141,13 @@ const Home = () => {
           <div className="flex justify-center items-center h-64">
             <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary-600"></div>
           </div>
-        ) : restaurants.length > 0 ? (
+        ) : filteredRestaurants.length > 0 ? (
           <>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
               {searchTerm ? `Search Results for "${searchTerm}"` : 'Available Restaurants'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {restaurants.map((restaurant) => (
+              {filteredRestaurants.map((restaurant) => (
                 <RestaurantCard key={restaurant._id} restaurant={restaurant} />
               ))}
             </div>
