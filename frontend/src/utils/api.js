@@ -1,25 +1,11 @@
 import axios from 'axios';
 
-// Use environment variable for API URL (Vite)
-// In production: VITE_API_URL should point to backend (e.g., https://backend.onrender.com)
-const getApiUrl = () => {
-  // Get environment variable using Vite's import.meta.env
-  const apiUrl = import.meta.env.VITE_API_URL;
-  
-  if (apiUrl) {
-    // Remove trailing slashes and ensure /api suffix
-    const baseUrl = apiUrl.replace(/\/+$/, '');
-    const finalUrl = baseUrl.endsWith('/api') ? baseUrl : `${baseUrl}/api`;
-    console.log('✅ API URL configured:', finalUrl);
-    return finalUrl;
-  }
-  
-  // Fallback to localhost for development
-  console.warn('⚠️ VITE_API_URL not set, using localhost:5000');
-  return 'http://localhost:5000/api';
-};
+// ✅ CRA-compatible environment variable
+const API_BASE_URL =
+  process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
-const API_URL = getApiUrl();
+const API_URL = `${API_BASE_URL}/api`;
+
 console.log('🌐 API Base URL:', API_URL);
 
 const api = axios.create({
@@ -33,11 +19,9 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
-
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-
     return config;
   },
   (error) => Promise.reject(error)
