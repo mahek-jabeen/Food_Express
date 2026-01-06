@@ -42,9 +42,10 @@ export const SocketProvider = ({ children }) => {
 
     // Get Socket.IO server URL (WITHOUT /api suffix)
     const getSocketUrl = () => {
-      if (process.env.REACT_APP_API_URL) {
-        // Remove /api suffix if present
-        return process.env.REACT_APP_API_URL.replace(/\/api$/, '').replace(/\/+$/, '');
+      const apiUrl = import.meta.env.VITE_API_URL;
+      if (apiUrl) {
+        // Remove /api suffix if present and trailing slashes
+        return apiUrl.replace(/\/api$/, '').replace(/\/+$/, '');
       }
       return 'http://localhost:5000';
     };
