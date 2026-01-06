@@ -128,20 +128,6 @@ const RestaurantDashboard = () => {
     }
   }, [user, navigate, fetchRestaurant]);
 
-  const fetchStats = useCallback(async () => {
-    // Guard: Ensure user is restaurant before making API calls
-    if (!user || user.role !== 'restaurant') {
-      return;
-    }
-    
-    try {
-      const statsRes = await api.get('/restaurant/stats');
-      // _t timestamp is added automatically by axios interceptor for cache-busting
-      setStats(statsRes.data.data.stats);
-    } catch (err) {
-      console.error('Stats fetch error:', err);
-    }
-  }, [user]);
 
   useEffect(() => {
     fetchOrders();
@@ -213,15 +199,14 @@ const RestaurantDashboard = () => {
     try {
       console.log(`🔄 Updating order ${orderId} to status: ${newStatus}`);
       
-      const response = await api.put(`/restaurant/orders/${orderId}/status`, {
+      await api.put(`/restaurant/orders/${orderId}/status`, {
         status: newStatus
       });
       
       console.log('✅ Status updated, waiting for socket signal to refetch');
-// DO NOTHING HERE
-// Backend will emit `order-changed`
-// Socket listener will refetch from backend
-
+      // DO NOTHING HERE
+      // Backend will emit `order-changed`
+      // Socket listener will refetch from backend
       
       console.log(`✅ Order ${orderId} updated successfully to ${newStatus}`);
       

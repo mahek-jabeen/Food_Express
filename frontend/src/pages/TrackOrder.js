@@ -182,6 +182,7 @@ const TrackOrder = () => {
     if (orderId) {
       fetchData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
 
   // DEMO LIVE TRACKING - INTERVAL-BASED MOVING DELIVERY MARKER

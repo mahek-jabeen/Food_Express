@@ -13,7 +13,6 @@ export const useSocket = () => {
 };
 
 export const SocketProvider = ({ children }) => {
-  const [socket, setSocket] = useState(null);
   const [connected, setConnected] = useState(false);
   const { user } = useAuth();
   const socketRef = useRef(null);
@@ -26,7 +25,6 @@ export const SocketProvider = ({ children }) => {
         // User logged out, disconnect socket
         socketRef.current.disconnect();
         socketRef.current = null;
-        setSocket(null);
         setConnected(false);
         connectionAttempted.current = false;
       }
@@ -84,21 +82,19 @@ export const SocketProvider = ({ children }) => {
       setConnected(false);
     });
 
-    // Store socket reference and state
+    // Store socket reference
     socketRef.current = newSocket;
-    setSocket(newSocket);
 
     // Cleanup on unmount or user change
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();
         socketRef.current = null;
-        setSocket(null);
         setConnected(false);
         connectionAttempted.current = false;
       }
     };
-  }, [user?._id, user?.role, user?.restaurantId]);
+  }, [user]);
 
   const joinOrderRoom = (orderId) => {
     if (socketRef.current) {
@@ -121,7 +117,6 @@ export const SocketProvider = ({ children }) => {
       socketRef.current.disconnect();
       console.log('🧹 Socket cleanup completed');
       socketRef.current = null;
-      setSocket(null);
       setConnected(false);
       connectionAttempted.current = false;
     }

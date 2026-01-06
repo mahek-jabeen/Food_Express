@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSocket } from '../context/SocketContext';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -58,7 +57,6 @@ const DeliveryDashboard = () => {
   const movementIntervalRef = useRef(null);
   const movementProgressRef = useRef(0);
   
-  const { socket } = useSocket();
   const { user } = useAuth();
   const navigate = useNavigate();
 

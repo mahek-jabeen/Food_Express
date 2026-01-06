@@ -14,6 +14,7 @@ const RestaurantReviews = () => {
     if (user && user.restaurantId) {
       fetchReviews();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const fetchReviews = async () => {

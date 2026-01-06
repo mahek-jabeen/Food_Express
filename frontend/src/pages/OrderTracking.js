@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSocket } from "../context/SocketContext";
-import { useAuth } from "../context/AuthContext";
 import api from "../utils/api";
 import ReviewModal from "../components/ReviewModal";
 
 const OrderTracking = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
   const socket = useSocket();
 
   const [order, setOrder] = useState(null);
@@ -95,6 +93,7 @@ const OrderTracking = () => {
     } else {
       fetchCustomerOrders();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
 
   // 🔔 Real-time updates (signal → refetch)
@@ -120,6 +119,7 @@ const OrderTracking = () => {
       socket.off("order-delivered", handleOrderUpdate);
       hasJoinedRoom.current = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket, orderId]);
 
   // Loading state
